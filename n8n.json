@@ -1,0 +1,130 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 20
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "143cd963-c64f-455c-895b-24117136f332",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "r5iHFZ9vD734mOPl",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "/projects/bObCSV5kAX5lUQ0D/datatables/r5iHFZ9vD734mOPl"
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "2e260c84-476a-44c5-beab-fafe99474284",
+      "name": "Get row(s)"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "={{ $json.id_chat }}",
+        "message": "Za co jesteś wdzięczny?",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        400,
+        0
+      ],
+      "id": "0c415707-a29f-40bd-a4bb-d4289347a172",
+      "name": "Send message and wait for response",
+      "webhookId": "53b4c329-2e3a-430e-a8bd-7fb18eef5e4f",
+      "credentials": {
+        "telegramApi": {
+          "id": "gFqrqvMMuykchDgs",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        608,
+        0
+      ],
+      "id": "db25f364-1e35-4354-8c79-e474e3458bb7",
+      "name": "Append row in sheet"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "Send message and wait for response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message and wait for response": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fc1ba0345969f7228871df9e64b3b47e4f43ee33b19ce42717b44162e39dba6e"
+  }
+}
