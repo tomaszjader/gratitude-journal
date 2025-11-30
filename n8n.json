@@ -68,14 +68,53 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
+          "value": "1OMzXvjFu0IfQpokYrr40q_5VS_0CHQe9BkC0XC7PDpc",
           "mode": "list",
-          "value": ""
+          "cachedResultName": "arkusz-dzękczynienia",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OMzXvjFu0IfQpokYrr40q_5VS_0CHQe9BkC0XC7PDpc/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
+          "value": "gid=0",
           "mode": "list",
-          "value": ""
-        }
+          "cachedResultName": "Arkusz1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OMzXvjFu0IfQpokYrr40q_5VS_0CHQe9BkC0XC7PDpc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tresc": "={{ $json.data.text }}",
+            "data": "={{ $now.setZone(\"Europe/Warsaw\").toISO() }}\n"
+          },
+          "matchingColumns": [
+            "data"
+          ],
+          "schema": [
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tresc",
+              "displayName": "tresc",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
@@ -84,7 +123,13 @@
         0
       ],
       "id": "db25f364-1e35-4354-8c79-e474e3458bb7",
-      "name": "Append row in sheet"
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "AepdgD0AInbXXb9A",
+          "name": "Google Sheets account 2"
+        }
+      }
     }
   ],
   "connections": {
