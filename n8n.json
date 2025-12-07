@@ -197,7 +197,7 @@
         "messages": {
           "values": [
             {
-              "content": "=napisz podsumownie tego arkusz dziekczunienia miesiecznego {{ JSON.stringify($json.result, null, 2) }}\n"
+              "content": "=Napisz podsumowanie tego miesięcznego arkusza dziękczynienia {{ JSON.stringify($json.result, null, 2) }}\n"
             }
           ]
         },
