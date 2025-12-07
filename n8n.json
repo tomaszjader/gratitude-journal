@@ -33,7 +33,7 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1,
       "position": [
-        208,
+        224,
         0
       ],
       "id": "2e260c84-476a-44c5-beab-fafe99474284",
@@ -52,7 +52,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        400,
+        448,
         0
       ],
       "id": "0c415707-a29f-40bd-a4bb-d4289347a172",
@@ -121,7 +121,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        608,
+        672,
         0
       ],
       "id": "db25f364-1e35-4354-8c79-e474e3458bb7",
@@ -147,8 +147,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
       "position": [
-        96,
-        336
+        0,
+        224
       ],
       "id": "6c9af3eb-84e2-4188-a594-0635f3ece1da",
       "name": "Schedule Trigger1"
@@ -174,8 +174,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        304,
-        336
+        224,
+        224
       ],
       "id": "0f08c642-af29-40c6-b89c-1dbd27fc826f",
       "name": "Get row(s) in sheet",
@@ -197,7 +197,7 @@
         "messages": {
           "values": [
             {
-              "content": "=napisz podsumownie tego arkusz dziekczunienia miesiecznego {{ $json.result }}"
+              "content": "=napisz podsumownie tego arkusz dziekczunienia miesiecznego {{ JSON.stringify($json.result, null, 2) }}\n"
             }
           ]
         },
@@ -206,8 +206,8 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1,
       "position": [
-        720,
-        336
+        672,
+        224
       ],
       "id": "2e0598a9-3fe4-4123-bbc0-b10c92792256",
       "name": "Message a model",
@@ -225,11 +225,56 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        512,
-        336
+        448,
+        224
       ],
       "id": "f37e7a02-effc-45af-b103-f537e4a1a67b",
       "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.id_chat }}",
+        "text": "={{ $('Message a model').item.json.content.parts[0].text }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1248,
+        224
+      ],
+      "id": "1a707904-375e-4a58-a129-d138274c33b3",
+      "name": "Send a text message",
+      "webhookId": "15c4076b-4127-4698-9935-d1c693e9c44e",
+      "credentials": {
+        "telegramApi": {
+          "id": "gFqrqvMMuykchDgs",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "r5iHFZ9vD734mOPl",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "/projects/bObCSV5kAX5lUQ0D/datatables/r5iHFZ9vD734mOPl"
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        224
+      ],
+      "id": "a5f37e74-df65-4508-a41b-8b4a015430b6",
+      "name": "Get row(s)1"
     }
   ],
   "connections": {
@@ -288,11 +333,33 @@
         ]
       ]
     },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Code in JavaScript": {
       "main": [
         [
           {
             "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
             "type": "main",
             "index": 0
           }
