@@ -132,6 +132,104 @@
           "name": "Google Sheets account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        96,
+        336
+      ],
+      "id": "6c9af3eb-84e2-4188-a594-0635f3ece1da",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1OMzXvjFu0IfQpokYrr40q_5VS_0CHQe9BkC0XC7PDpc",
+          "mode": "list",
+          "cachedResultName": "arkusz-dzękczynienia",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OMzXvjFu0IfQpokYrr40q_5VS_0CHQe9BkC0XC7PDpc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Arkusz1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OMzXvjFu0IfQpokYrr40q_5VS_0CHQe9BkC0XC7PDpc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        336
+      ],
+      "id": "0f08c642-af29-40c6-b89c-1dbd27fc826f",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "AepdgD0AInbXXb9A",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=napisz podsumownie tego arkusz dziekczunienia miesiecznego {{ $json.result }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        720,
+        336
+      ],
+      "id": "2e0598a9-3fe4-4123-bbc0-b10c92792256",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "u0QOhfnsR3fJmXDS",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// result = cały wynik z Google Sheets w jednej zmiennej\nconst result = items.map(item => item.json);\n\n// zwracamy to jako jedno pole\nreturn [{\n  json: {\n    result\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        512,
+        336
+      ],
+      "id": "f37e7a02-effc-45af-b103-f537e4a1a67b",
+      "name": "Code in JavaScript"
     }
   ],
   "connections": {
@@ -162,6 +260,39 @@
         [
           {
             "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
             "type": "main",
             "index": 0
           }
